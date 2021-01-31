@@ -1,15 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { ReactComponent as DogsLogo } from '../../assets/dogs.svg';
+
 import './header.scss';
 
 export default function index() {
   return (
-    <div id="header">
+    <header id="header">
       <nav>
-        <Link to="/">Home</Link>
-        <Link to="/login">Login / Novo</Link>
+        <Link className="logo" to="/" aria-label="Dogs - Home">
+          <DogsLogo />
+        </Link>
+        <Link className="login" to="/login">
+          Login / Novo
+        </Link>
       </nav>
-    </div>
+    </header>
   );
 }
