@@ -54,4 +54,9 @@ input {
 
   padding: 0 1rem;
   margin: 0 auto;
+
+  & main {
+    margin-top: 10vh;
+    height: 90vh;
+  }
 }
