@@ -6,10 +6,11 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    const token = sessionStorage.getItem('token');
+    let token = sessionStorage.getItem('token');
 
-    config.headers.Authorization = `Bearer ${token}`;
-
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
