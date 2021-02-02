@@ -1,25 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import useFom from '../../../custom-hooks/useFom';
-import api from '../../../services/api';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
+import { UserContext } from '../../../stores/UserStore';
 
 import './login-form.scss';
 
 export default function LoginForm() {
   const username = useFom();
-  console.log(username.value);
   const password = useFom();
-  console.log(password.value);
+
+  const { userLogin } = useContext(UserContext);
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const { data } = await api.post('/jwt-auth/v1/token', {
-      username: username.value,
-      password: password.value,
-    });
+    await userLogin(username.value, password.value);
   }
 
   return (
