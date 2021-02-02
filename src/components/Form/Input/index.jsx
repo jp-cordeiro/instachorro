@@ -1,13 +1,12 @@
 import React from 'react';
 import './input.scss';
 
-export default function Input({ handleChange, label, ...restProps }) {
+export default function Input({ label, ...restProps }) {
   return (
     <div className="group">
       <input
         type="text"
         className="form-input"
-        onChange={handleChange}
         {...restProps}
       />
       {label ? (
