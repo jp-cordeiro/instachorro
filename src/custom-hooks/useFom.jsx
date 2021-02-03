@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export default function useFom() {
   const [value, setValue] = useState('');
 
-  function onChange({ target }) {
-    setValue(target.value);
-  }
+  const onChange = useCallback(
+    ({ target }) => {
+      setValue(target.value);
+    },
+    [setValue]
+  );
 
   return {
     value,
