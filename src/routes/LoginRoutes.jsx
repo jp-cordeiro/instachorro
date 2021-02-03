@@ -14,7 +14,7 @@ export default function LoginRoutes({ match }) {
 
   const { isLogged } = useContext(UserContext);
 
-  if (isLogged) {
+  if (isLogged && path === '/login') {
     return <Redirect to="/conta" />;
   }
 
