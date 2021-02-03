@@ -64,7 +64,7 @@ input {
 .anime-in {
   opacity: 0;
   transform: scale(0.8);
-  animation: animeIn 0.3s forwards;
+  animation: anime-in 0.5s forwards;
 }
 
 @keyframes anime-in {
@@ -77,7 +77,7 @@ input {
 .anime-left {
   opacity: 0;
   transform: translateX(-20px);
-  animation: anime-left 0.3s forwards;
+  animation: anime-left 0.5s forwards;
 }
 
 @keyframes anime-left {
@@ -86,3 +86,5 @@ input {
     transform: initial;
   }
 }
+
+
