@@ -1,33 +1,8 @@
-@import '../../../styles/buttons-mixins.scss';
+@import '../../../styles/mixins/global-login-mixin.scss';
+@import '../../../styles/mixins/buttons-mixins.scss';
 
 #login-form {
-  display: flex;
-  flex-direction: column;
-
-  & h1 {
-    line-height: 1;
-    font-size: 3rem;
-    margin: 1rem 0;
-    position: relative;
-    z-index: 1;
-
-    &::after {
-      content: '';
-      display: block;
-      width: 1.5rem;
-      height: 1.5rem;
-      background: #fd1;
-      position: absolute;
-      bottom: 5px;
-      left: -5px;
-      border-radius: 0.2rem;
-      z-index: -1;
-    }
-  }
-  & form {
-    margin-bottom: 2rem;
-    width: 22rem;
-  }
+  @include globalLogin();
 
   & .login-loss {
     display: inline-block;
@@ -45,6 +20,11 @@
   }
 
   & .login-new {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
     margin-top: 2rem;
     width: 22rem;
 

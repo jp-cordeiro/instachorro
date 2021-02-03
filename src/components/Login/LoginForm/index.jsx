@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import useFom from '../../../custom-hooks/useFom';
 import Button from '../../Form/Button';
@@ -9,28 +9,35 @@ import './login-form.scss';
 import AppError from '../../../utils/AppError';
 
 export default function LoginForm() {
+  const { userLogin, isLoading, error } = useContext(UserContext);
+  const history = useHistory();
+
   const username = useFom();
   const password = useFom();
 
-  const { userLogin, isLoading, error } = useContext(UserContext);
+  const cleanForm = useCallback(() => {
+    const valueReset = {
+      target: {
+        value: '',
+      },
+    };
+    username.onChange(valueReset);
+    password.onChange(valueReset);
+  }, [username, password]);
 
-  const history = useHistory();
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    try {
-      await userLogin(username.value, password.value);
-      history.push('/conta');
-    } catch (error) {
-      const valueReset = {
-        target: {
-          value: '',
-        },
-      };
-      username.onChange(valueReset);
-      password.onChange(valueReset);
-    }
-  }
+  const handleSubmit = useCallback(
+    async function (event) {
+      event.preventDefault();
+      try {
+        await userLogin(username.value, password.value);
+        history.push('/conta');
+      } catch (error) {
+      } finally {
+        cleanForm();
+      }
+    },
+    [history, cleanForm, username, password, userLogin]
+  );
 
   return (
     <section id="login-form" className="anime-left">
