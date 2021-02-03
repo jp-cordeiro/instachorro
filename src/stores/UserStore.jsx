@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import api from '../services/api';
 
 export const UserContext = createContext();
@@ -11,6 +11,53 @@ export default function UserStore({ children }) {
 
   const userSession = sessionStorage.getItem('user');
 
+  const getUser = useCallback(
+    async function () {
+      if (userSession) {
+        setData(JSON.parse(userSession));
+      } else {
+        const { data } = await api.get('/api/user');
+        setData(data);
+        sessionStorage.setItem('user', JSON.stringify(data));
+      }
+      setIsLoading(true);
+    },
+    [userSession]
+  );
+
+  const userLogout = useCallback(async function () {
+    setData(null);
+    setError(null);
+    setIsLoading(false);
+    setIsLogged(false);
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+  }, []);
+
+  const userLogin = useCallback(
+    async function (username, password) {
+      try {
+        setError(null);
+        setIsLoading(true);
+        const { data } = await api.post('/jwt-auth/v1/token', {
+          username,
+          password,
+        });
+
+        const { token } = data;
+        sessionStorage.setItem('token', token);
+        await getUser();
+      } catch (error) {
+        const { data: errorData } = error.response;
+        setError(errorData);
+        throw new Error(errorData);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [getUser]
+  );
+
   useEffect(() => {
     async function autoLogin() {
       try {
@@ -18,8 +65,9 @@ export default function UserStore({ children }) {
         setIsLoading(true);
         const token = sessionStorage.getItem('token');
         if (token) {
-          await getUser();
           await api.post('/jwt-auth/v1/token/validate');
+          await getUser();
+          setIsLogged(true);
           return;
         }
         setIsLogged(false);
@@ -30,46 +78,7 @@ export default function UserStore({ children }) {
       }
     }
     autoLogin();
-  }, []);
-
-  async function userLogin(username, password) {
-    try {
-      setError(null);
-      setIsLoading(true);
-      const { data } = await api.post('/jwt-auth/v1/token', {
-        username,
-        password,
-      });
-
-      const { token } = data;
-      sessionStorage.setItem('token', token);
-      await getUser();
-    } catch (error) {
-      setError(error.message);
-      setIsLogged(false);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  async function userLogout() {
-    setData(null);
-    setError(null);
-    setIsLoading(false);
-    setIsLogged(false);
-    sessionStorage.removeItem('token');
-  }
-
-  async function getUser() {
-    if (userSession) {
-      setData(JSON.parse(userSession));
-    } else {
-      const { data } = await api.get('/api/user');
-      setData(data);
-      sessionStorage.setItem('user', JSON.stringify(data));
-    }
-    setIsLoading(true);
-  }
+  }, [getUser, userLogout]);
 
   return (
     <UserContext.Provider
