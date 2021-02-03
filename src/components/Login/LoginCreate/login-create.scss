@@ -1,0 +1,5 @@
+@import '../../../styles/mixins/global-login-mixin.scss';
+
+#login-create {
+  @include globalLogin();
+}
