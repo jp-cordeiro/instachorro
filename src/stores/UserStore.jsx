@@ -11,6 +11,10 @@ export default function UserStore({ children }) {
 
   const userSession = sessionStorage.getItem('user');
 
+  const cleanError = useCallback(() => {
+    setError(null);
+  }, [setError]);
+
   const getUser = useCallback(
     async function () {
       if (userSession) {
@@ -58,6 +62,25 @@ export default function UserStore({ children }) {
     [getUser]
   );
 
+  const createUser = useCallback(async (username, email, password) => {
+    try {
+      setError(null);
+      setIsLoading(true);
+      const { data } = await api.post('/api/user', {
+        username,
+        email,
+        password,
+      });
+      return data;
+    } catch (error) {
+      const { data: errorData } = error.response;
+      setError(errorData);
+      throw new Error(errorData);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     async function autoLogin() {
       try {
@@ -82,7 +105,16 @@ export default function UserStore({ children }) {
 
   return (
     <UserContext.Provider
-      value={{ userLogin, userLogout, data, isLoading, isLogged, error }}
+      value={{
+        userLogin,
+        userLogout,
+        createUser,
+        data,
+        isLoading,
+        isLogged,
+        error,
+        cleanError,
+      }}
     >
       {children}
     </UserContext.Provider>
