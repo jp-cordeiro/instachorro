@@ -7,6 +7,8 @@ import LoginPasswordReset from '../components/Login/LoginPasswordReset';
 
 import { UserContext } from '../stores/UserStore';
 
+import './styles/login-routes.scss';
+
 export default function LoginRoutes({ match }) {
   let { path } = match;
 
@@ -17,11 +19,13 @@ export default function LoginRoutes({ match }) {
   }
 
   return (
-    <Switch>
-      <Route path={`${path}/novo`} component={LoginCreate} />
-      <Route path={`${path}/perdeu`} component={LoginPasswordLost} />
-      <Route path={`${path}/resetar`} component={LoginPasswordReset} />
-      <Route path={`${path}`} component={LoginForm} />
-    </Switch>
+    <div id="login-forms">
+      <Switch>
+        <Route path={`${path}/novo`} component={LoginCreate} />
+        <Route path={`${path}/perdeu`} component={LoginPasswordLost} />
+        <Route path={`${path}/resetar`} component={LoginPasswordReset} />
+        <Route path={`${path}`} component={LoginForm} />
+      </Switch>
+    </div>
   );
 }
