@@ -88,9 +88,9 @@ export default function UserStore({ children }) {
         setIsLoading(true);
         const token = sessionStorage.getItem('token');
         if (token) {
-          await api.post('/jwt-auth/v1/token/validate');
           await getUser();
           setIsLogged(true);
+          await api.post('/jwt-auth/v1/token/validate');
           return;
         }
         setIsLogged(false);
