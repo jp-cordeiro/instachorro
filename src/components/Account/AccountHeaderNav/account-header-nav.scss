@@ -1,0 +1,39 @@
+#account-header-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+
+  & a,
+  button {
+    background: #eee;
+    border-radius: 0.2rem;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    transition: 1s;
+    cursor: pointer;
+  }
+
+  & a:hover,
+  & button:hover,
+  & a:focus,
+  & button:focus {
+    background: rgb(223, 221, 221);
+    box-shadow: 0 0 0 3px #eee;
+    border-color: #333;
+    outline: none;
+  }
+
+  & a.active {
+    background: rgb(223, 221, 221);
+    box-shadow: 0 0 0 3px rgb(174, 147, 241);
+    border-color: rgb(87, 53, 175);
+
+    & svg > * {
+      fill: rgb(87, 53, 175);
+    }
+  }
+}
