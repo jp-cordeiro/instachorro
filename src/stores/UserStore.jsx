@@ -51,6 +51,7 @@ export default function UserStore({ children }) {
         const { token } = data;
         sessionStorage.setItem('token', token);
         await getUser();
+        setIsLogged(true);
       } catch (error) {
         const { data: errorData } = error.response;
         setError(errorData);
