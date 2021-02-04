@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { UserContext } from '../../../stores/UserStore';
 import { AccountHeaderContext } from '../../../stores/AccountHeaderStore';
 
@@ -9,41 +9,72 @@ import { ReactComponent as AddIcon } from '../../../assets/estatisticas.svg';
 import { ReactComponent as LogoutIcon } from '../../../assets/sair.svg';
 
 import './account-header-nav.scss';
+import useMedia from '../../../custom-hooks/useMedia';
 
 export default function AccountHeaderNav() {
   const { userLogout } = useContext(UserContext);
   const { setTitle } = useContext(AccountHeaderContext);
 
-  const [mobile, setMobile] = useState(null);
+  const mobile = useMedia('(max-width: 40rem)');
 
-  const handleSetTitle = useCallback((title) => {
-    setTitle(title);
-  }, []);
+  const location = useLocation();
+
+  const [mobileMenu, setMobileMenu] = useState(false);
+
+  const handleSetTitle = useCallback(
+    (title) => {
+      setTitle(title);
+    },
+    [setTitle]
+  );
+
+  useEffect(() => {
+    setMobileMenu(false);
+  }, [location.pathname]);
 
   return (
-    <nav id="account-header-nav">
-      <NavLink onClick={() => handleSetTitle('Minhas Fotos')} exact to="/conta">
-        <FeedIcon />
-        {mobile && 'Minhas Fotos'}
-      </NavLink>
-      <NavLink
-        onClick={() => handleSetTitle('Estatísticas')}
-        to="/conta/estatisticas"
+    <>
+      {mobile && (
+        <button
+          id="mobile-button"
+          aria-label="Menu"
+          className={mobileMenu ? 'mobile-button-active' : ''}
+          onClick={() => setMobileMenu(!mobileMenu)}
+        ></button>
+      )}
+      <nav
+        id="account-header-nav"
+        className={`${mobile ? 'nav-mobile' : 'nav'} ${
+          mobileMenu ? 'nav-mobile-active' : ''
+        }`}
       >
-        <StatisticsIcon />
-        {mobile && 'Estatísticas'}
-      </NavLink>
-      <NavLink
-        onClick={() => handleSetTitle('Adicionar Fotos')}
-        to="/conta/postar"
-      >
-        <AddIcon />
-        {mobile && 'Adicionar Fotos'}
-      </NavLink>
-      <button onClick={userLogout}>
-        <LogoutIcon />
-        {mobile && 'Sair'}
-      </button>
-    </nav>
+        <NavLink
+          onClick={() => handleSetTitle('Minhas Fotos')}
+          exact
+          to="/conta"
+        >
+          <FeedIcon />
+          {mobile && 'Minhas Fotos'}
+        </NavLink>
+        <NavLink
+          onClick={() => handleSetTitle('Estatísticas')}
+          to="/conta/estatisticas"
+        >
+          <StatisticsIcon />
+          {mobile && 'Estatísticas'}
+        </NavLink>
+        <NavLink
+          onClick={() => handleSetTitle('Adicionar Fotos')}
+          to="/conta/postar"
+        >
+          <AddIcon />
+          {mobile && 'Adicionar Fotos'}
+        </NavLink>
+        <button onClick={userLogout}>
+          <LogoutIcon />
+          {mobile && 'Sair'}
+        </button>
+      </nav>
+    </>
   );
 }

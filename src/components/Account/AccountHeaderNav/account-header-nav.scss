@@ -1,39 +1,134 @@
 #account-header-nav {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  width: 15rem;
 
-  & a,
-  button {
+  &.nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+
+    & a,
+    button {
+      background: #eee;
+      border-radius: 0.2rem;
+      height: 40px;
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      transition: 1s;
+      cursor: pointer;
+    }
+
+    & a:hover,
+    & button:hover,
+    & a:focus,
+    & button:focus {
+      background: rgb(223, 221, 221);
+      box-shadow: 0 0 0 3px #eee;
+      border-color: #333;
+      outline: none;
+    }
+
+    & a.active {
+      background: rgb(223, 221, 221);
+      box-shadow: 0 0 0 3px rgb(174, 147, 241);
+      border-color: rgb(87, 53, 175);
+
+      & svg > * {
+        fill: rgb(87, 53, 175);
+      }
+    }
+  }
+
+  &.nav-mobile {
+    display: block;
+    position: absolute;
+    text-align: center;
+    top: 70px;
+    right: 0px;
+    height: 0px;
+    padding: 0 1rem;
     background: #eee;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     border-radius: 0.2rem;
-    height: 40px;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid transparent;
-    transition: 1s;
-    cursor: pointer;
-  }
+    transform: translate(-10px);
+    opacity: 0;
+    pointer-events: none;
 
-  & a:hover,
-  & button:hover,
-  & a:focus,
-  & button:focus {
-    background: rgb(223, 221, 221);
-    box-shadow: 0 0 0 3px #eee;
-    border-color: #333;
-    outline: none;
-  }
+    & svg {
+      margin-left: 0.5rem;
+    }
 
-  & a.active {
-    background: rgb(223, 221, 221);
-    box-shadow: 0 0 0 3px rgb(174, 147, 241);
-    border-color: rgb(87, 53, 175);
+    & button {
+      border-bottom: none;
+    }
 
-    & svg > * {
+    & a,
+    & button {
+      color: #333;
+      display: flex;
+      align-items: center;
+      background: none;
+      width: 100%;
+      border: 1px solid #eee;
+      padding: 0.5rem 0;
+      cursor: pointer;
+    }
+
+    & a:hover svg > *,
+    & button:hover svg > * {
       fill: rgb(87, 53, 175);
     }
+  }
+
+  &.nav-mobile-active {
+    transition: 0.3s;
+    transform: initial;
+    opacity: 1;
+    z-index: 100;
+    pointer-events: initial;
+  }
+}
+
+#mobile-button {
+  background: #eee;
+  border-radius: 0.2rem;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: 1s;
+  cursor: pointer;
+  padding: 0px;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 1.2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    box-shadow: 0 6px currentColor, 0 -6px currentColor;
+    transition: 0.2s;
+  }
+
+  &:focus,
+  &:hover,
+  &.mobile-button-active {
+    outline: none;
+    background: #eee;
+    box-shadow: 0 0 0 3px rgb(174, 147, 241);
+    border-color: rgb(87, 53, 175);
+    color: rgb(87, 53, 175);
+  }
+
+  &.mobile-button-active::after {
+    transform: rotate(90deg);
+    width: 4px;
+    height: 4px;
+    box-shadow: 0 8px currentColor, 0 -8px currentColor;
   }
 }
