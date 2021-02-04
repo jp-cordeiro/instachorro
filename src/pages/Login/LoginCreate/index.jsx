@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react';
-import Button from '../../Form/Button';
-import Input from '../../Form/Input';
+import Button from '../../../components/Form/Button';
+import Input from '../../../components/Form/Input';
 import { UserContext } from '../../../stores/UserStore';
 
 import './login-create.scss';
