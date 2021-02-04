@@ -32,7 +32,6 @@ export default function LoginForm() {
         await userLogin(username.value, password.value);
         history.push('/conta');
       } catch (error) {
-      } finally {
         cleanForm();
       }
     },
