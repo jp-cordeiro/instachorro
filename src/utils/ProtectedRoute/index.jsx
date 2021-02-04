@@ -5,13 +5,11 @@ import { UserContext } from '../../stores/UserStore';
 export default function ProtectedRoute(props) {
   const { isLogged } = useContext(UserContext);
 
-  useEffect(() => {
-    if (!isLogged) {
-      return <Redirect to="/login" />;
-    } else if (isLogged) {
-      return <Route {...props} />;
-    }
-  }, [isLogged]);
+  if (!isLogged) {
+    return <Redirect to="/login" />;
+  } else if (isLogged) {
+    return <Route {...props} />;
+  }
 
   return null;
 }
