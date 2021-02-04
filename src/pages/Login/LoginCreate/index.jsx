@@ -43,7 +43,7 @@ export default function LoginCreate() {
   );
 
   return (
-    <section id="login-create">
+    <section id="login-create" className="anime-left">
       <h1>Cadastre-se</h1>
       <form onSubmit={handleSubmit}>
         <Input
