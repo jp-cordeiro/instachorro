@@ -4,6 +4,7 @@ import { UserContext } from '../stores/UserStore';
 
 import Home from '../pages/Home';
 import LoginRoutes from './LoginRoutes';
+import ProtectedRoute from '../utils/ProtectedRoute';
 
 const usePrevious = (value) => {
   const ref = React.useRef();
@@ -35,6 +36,7 @@ export default function Router() {
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/login" component={LoginRoutes} />
+      <ProtectedRoute path="/conta" component={LoginRoutes} />
     </Switch>
   );
 }
